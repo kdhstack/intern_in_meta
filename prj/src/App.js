@@ -21,6 +21,7 @@ function App() {
     <div className="App">
       <Header />
       <div className="item">
+        test text
         <img src={shoeImg} alt="신발 이미지" className="itembox"></img> 
       </div>
     </div>

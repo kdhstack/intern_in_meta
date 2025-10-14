@@ -54,7 +54,7 @@ const ITEM_TEMPLATES = [
 function Header({totalCount}) {
   return (
     <header className='header'>
-      <h1 className='headerText'>ShoeKing</h1>
+      <h1 className='headerText'>Shooking</h1>
       <nav>
         <img src={cartImg} alt='장바구니' className='cart'></img>
         <CartCount count = {totalCount} />

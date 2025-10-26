@@ -119,28 +119,57 @@ function CartCount({count}) {
 }
 
 function CardNumber({isInput, value, onChange, cardData}) {
- if (isInput) {
-  return <p><label>카드 번호:</label> <input type="text" placeholder="**** **** **** ****" value={value} onChange={onChange} /></p>;
-  }  
-  const fullNumber = cardData.number || '';
-  let displayPart = '';
+    if (isInput) {
+        const cleanValue = value.replace(/[^0-9]/g, ''); 
+        
+        let maskedAndFormattedValue = '';
+        const maxLength = 16;
+        
+        for (let i = 0; i < cleanValue.length && i < maxLength; i++) {
+            const digit = cleanValue[i];
+            
+            if (i < 8) {
+                maskedAndFormattedValue += digit;
+            } else {
+                maskedAndFormattedValue += '*';
+            }
 
-  if (fullNumber.length >= 8) {
-    const visiblePart = fullNumber.slice(0, 8); 
-    
-    const maskedLength = 16 - visiblePart.length;
-    const maskedPart = '*'.repeat(maskedLength > 0 ? maskedLength : 0);
-    
-    const formattedVisible = visiblePart.match(/.{1,4}/g).join(' '); // 1234 5678
-    const formattedMasked = maskedPart.match(/.{1,4}/g) ? maskedPart.match(/.{1,4}/g).join(' ') : '';
-    
-    displayPart = `${formattedVisible} ${formattedMasked}`.trim();
-    
-  } else {
-    displayPart = '**** **** **** ****';
-  }
+            if ((i + 1) % 4 === 0 && i !== cleanValue.length - 1 && i < maxLength - 1) {
+                maskedAndFormattedValue += ' ';
+            }
+        }
 
-  return <p>카드 번호: {displayPart}</p>;
+        return (
+            <p>
+                <label>카드 번호:</label> 
+                <input 
+                    type="text" 
+                    placeholder="**** **** **** ****" 
+                    value={maskedAndFormattedValue}
+                    onChange={onChange}
+                    maxLength={19}
+                />
+            </p>
+        );
+    }
+
+    const fullNumber = cardData.number || '';
+    const cleanNumber = fullNumber.replace(/[^0-9]/g, ''); 
+    
+    const visiblePart = cleanNumber.slice(0, 8);
+    const maskedPart = '********'; 
+    
+    let displayPart = '';
+    const combined = visiblePart + maskedPart;
+
+    for (let i = 0; i < combined.length; i++) {
+        displayPart += combined[i];
+        if ((i + 1) % 4 === 0 && i !== combined.length - 1) {
+            displayPart += ' ';
+        }
+    }
+
+    return <p>카드 번호: {displayPart}</p>;
 }
 
 function CardDate({isInput, value, onChange, cardData}) {
@@ -181,21 +210,21 @@ function CardPW({ isInput, value, onChange, cardData }) {
   if (isInput) {
     return (
       <p>
-        <label>카드 비밀번호: </label> 
+        <label>카드 비밀번호 앞 두자리: </label> 
         <input 
           type="password"
           placeholder="****" 
           value={value} 
           onChange={onChange}
-          maxLength="4"
+          maxLength="2"
         />
       </p>
     );
   }
-  return <p>카드 비밀번호: ****</p>;
+  return <p>카드 비밀번호: **</p>;
 }
 
-function Card({cardData, isInput}) {
+function Card({cardData, isInput, isSelected}) {
   const data = cardData || { 
     number: '', 
     date: '01/01', 
@@ -204,8 +233,10 @@ function Card({cardData, isInput}) {
     pw: '****' 
   };
 
+  const cardClasses = `cardinfo ${isSelected ? 'selected-card': ''}`;
+
   return (
-  <div className = "cardinfo">
+  <div className = {cardClasses}>
   <CardNumber cardData={data} />
   <CardDate cardData={data} />
   <CardUsername cardData={data} />
@@ -218,6 +249,8 @@ function Card({cardData, isInput}) {
 function CardModal({onClose, cards, onRegister}) {
   const [stage, setStage] = useState('selection');
   
+  const [selectedCardId, setSelectedCardId] = useState(null);
+
   const [newCard, setNewCard] = useState( {
     number: '',
     date: '',
@@ -225,6 +258,10 @@ function CardModal({onClose, cards, onRegister}) {
     cvc: '',
     pw: ''
   });
+
+  const handleCardSelect = (cardId) => {
+    setSelectedCardId(cardId);
+  }
 
   const handleAddCardClick = () => {
     setStage('add');
@@ -235,10 +272,21 @@ function CardModal({onClose, cards, onRegister}) {
   }
 
   const handleInputChange = (field, value) => {
-    setNewCard(prev => ({
+    if(field === 'number') {
+      const cleanNumber = value.replace(/[^0-9]/g, '');
+      const trimmedNumber = cleanNumber.slice(0, 16);
+
+      setNewCard(prev => ({
+        ...prev,
+        [field]: trimmedNumber
+      }));
+    }
+    else {
+      setNewCard(prev => ({
       ...prev,
       [field]: value
     }));
+    }
   };
 
   const handleCardRegistration = () => {
@@ -262,22 +310,29 @@ function CardModal({onClose, cards, onRegister}) {
           )}
 
    <div className='card-list-container'>
-  {cards.map((card, index) => (
-   <div key={card.id} className='existing-card'>
-   <Card cardData = {card}/> 
-   </div>
-   ))}
+ {cards.map((card, index) => (
+  <div 
+  key={card.id} 
+  className='existing-card'
+  onClick={() => handleCardSelect(card.id)}
+  >
+  <Card 
+   cardData={card} 
+   isSelected={card.id === selectedCardId}
+   /> 
+  </div>
+  ))}
 
-   <div className='add-new-card-button' onClick={handleAddCardClick}>
-   +
-   </div>
+  <div className='add-new-card-button' onClick={handleAddCardClick}>
+  +
+  </div>
   </div>
 
-   <button className='pay-button' disabled={!hasCards}>
-    {hasCards ? '선택된 카드로 결제하기' : '카드 등록 후 결제 가능'}
-    </button>
-        </div>
-      </div>
+ <button className='pay-button' disabled={!hasCards || !selectedCardId}> 
+  {hasCards && selectedCardId ? '선택된 카드로 결제하기' : '카드 선택 후 결제 가능'}
+  </button>
+  </div>
+  </div>
     );
   }
 

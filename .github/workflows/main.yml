@@ -19,6 +19,9 @@ jobs:
     steps:
       - name: 🛑 Checkout Code
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: true
         
       - name: 🛠️ Set up Node.js with Caching
         uses: actions/setup-node@v4
@@ -41,10 +44,5 @@ jobs:
 
       - name: ⚙️ Run Build and Deploy Script
         # npm run deploy도 prj 폴더 내에서 실행
-        run: GH_TOKEN=${{ secrets.GITHUB_TOKEN }} npm run deploy
+        run: npm run deploy
         working-directory: ./prj # <--- npm 명령의 작업 디렉토리 명시
-        env:
-          # GITHUB_TOKEN은 GitHub Actions가 자동으로 제공하는 변수입니다.
-          # gh-pages 패키지는 GH_TOKEN 또는 GITHUB_TOKEN 변수를 자동으로 읽을 수 있습니다.
-          # 여기서는 GH_TOKEN을 명시적으로 설정하여 확실하게 전달합니다.
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

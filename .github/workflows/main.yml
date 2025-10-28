@@ -1,11 +1,21 @@
-name: React Build and Deploy (using gh-pages npm script)
+name: CI/CD(Run & Deploy)
 
 on:
-# ... (생략)
+  push:
+    branches:
+      - main 
 
 jobs:
   build_and_deploy:
-# ... (생략)
+    runs-on: ubuntu-latest
+    
+    # defaults:
+    #   run:
+    #     working-directory: ./prj # <--- 이 부분은 그대로 유지하거나, 아래 run 단계에서 명시적으로 지정합니다.
+        
+    permissions:
+      contents: write 
+
     steps:
       - name: 🛑 Checkout Code
         uses: actions/checkout@v4
@@ -15,19 +25,21 @@ jobs:
         with:
           node-version: '20' 
           cache: 'npm' 
+          # 💡 핵심 수정: package-lock.json이 위치한 경로를 명시적으로 지정
           cache-dependency-path: prj/package-lock.json 
 
       - name: 📦 Install dependencies
+        # npm install은 prj 폴더 내에서 실행
         run: npm install 
-        working-directory: ./prj 
+        working-directory: ./prj # <--- npm 명령의 작업 디렉토리 명시
 
-      # 💡 핵심 수정: Git 사용자 정보 설정 단계 추가
       - name: 👤 Configure Git User
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-        working-directory: ./prj # Git 명령도 prj 폴더 내에서 실행되도록 지정
+          working-directory: ./prj
 
       - name: ⚙️ Run Build and Deploy Script
+        # npm run deploy도 prj 폴더 내에서 실행
         run: npm run deploy
-        working-directory: ./prj
+        working-directory: ./prj # <--- npm 명령의 작업 디렉토리 명시

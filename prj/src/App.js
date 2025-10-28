@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 
 import shoeImg from './assets/shoe1.png';

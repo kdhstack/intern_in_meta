@@ -14,14 +14,18 @@ jobs:
     #     working-directory: ./prj # <--- 이 부분은 그대로 유지하거나, 아래 run 단계에서 명시적으로 지정합니다.
         
     permissions:
-      contents: write 
+      contents: write
+      id-token: write
 
     steps:
       - name: 🛑 Checkout Code
         uses: actions/checkout@v4
+
+      - name: 🔐 Setup SSH Key
+        uses: webfactory/ssh-agent@v0.9.1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          persist-credentials: true
+          # 💡 [필수]: GitHub Secrets에 등록된 SSH Private Key를 사용합니다.
+          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
         
       - name: 🛠️ Set up Node.js with Caching
         uses: actions/setup-node@v4

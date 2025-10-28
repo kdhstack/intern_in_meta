@@ -1,15 +1,19 @@
-name: React Build and Deploy (using gh-pages npm script)
+name: CI/CD(Run & Deploy)
 
 on:
   push:
     branches:
-      - main # main 브랜치에 코드를 푸시할 때마다 실행
+      - main 
 
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     
-    # gh-pages 브랜치에 푸시할 권한을 부여합니다.
+    # 💡 defaults 추가: 이 Job의 모든 'run' 명령은 ./prj 폴더 내에서 실행됩니다.
+    defaults:
+      run:
+        working-directory: ./prj
+        
     permissions:
       contents: write 
 
@@ -20,13 +24,15 @@ jobs:
       - name: 🛠️ Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20' # 프로젝트에 사용된 Node.js 버전(v18, v20 등)으로 변경 가능
-          cache: 'npm' # package-lock.json 기반으로 의존성 캐싱 (오류 방지 및 속도 향상)
+          node-version: '20' 
+          cache: 'npm' 
+          # 💡 이제 './prj' 내부에서 package-lock.json을 찾게 됩니다.
+          # cache-dependency-path를 별도로 지정할 필요 없이 defaults로 해결됩니다.
 
       - name: 📦 Install dependencies
-        # package-lock.json에 따라 의존성 설치. gh-pages 패키지도 여기서 설치됩니다.
+        # './prj' 내부에서 npm install 실행
         run: npm install 
         
       - name: ⚙️ Run Build and Deploy Script
-        # 이 명령은 package.json에 정의된 'predeploy'(npm run build)와 'deploy'를 순차적으로 실행합니다.
+        # './prj' 내부에서 npm run deploy 실행 (빌드 및 gh-pages 푸시)
         run: npm run deploy

@@ -37,7 +37,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          working-directory: ./prj
+        working-directory: ./prj
 
       - name: ⚙️ Run Build and Deploy Script
         # npm run deploy도 prj 폴더 내에서 실행

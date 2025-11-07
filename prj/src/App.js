@@ -440,6 +440,7 @@ function CartPage({onGoHome, cartActions, onCheckout}) {
 }
 
 function useCartActions() {
+  // eslint-disable-next-line no-unused-vars
   const [cart, setCart] = useRecoilState(cartState);
 
   // 수량 변경(+-1)
@@ -497,6 +498,7 @@ function App() {
   const [registeredCards, setRegisteredCards] = useState([])
 
   const [currentView, setCurrentView] = useRecoilState(viewState);
+  // eslint-disable-next-line no-unused-vars
   const [cart, setCart] = useRecoilState(cartState); // 장바구니 비우기 위해
 
   const cartActions = useCartActions();

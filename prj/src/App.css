@@ -50,7 +50,6 @@
 }
 
 .page {
-  margin-top: 120px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -84,6 +83,7 @@
   margin: 20px 2.5%;
   border: 1px solid black;
   border-radius: 50px;
+  align-items: center;
 
   font-family: 'Montserrat', sans-serif;
   text-align: left;
@@ -314,4 +314,177 @@
 
 .card-list-container > .existing-card {
     cursor: pointer;
+}
+
+/* 로딩 및 에러 메시지 컨테이너 */
+.loading-state, .error-state {
+    padding: 40px 20px;
+    text-align: center;
+    margin-top: 50px;
+    border-radius: 8px;
+    font-size: 1.2em;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* 로딩 중 메시지 */
+.loading-state {
+    background-color: #f0f8ff;
+    color: #007bff;
+    border: 2px solid #b3d7ff;
+}
+
+/* 에러 메시지 */
+.error-state {
+    background-color: #fff0f0;
+    color: #dc3545;
+    border: 2px solid #f5c6cb;
+}
+
+/* 장바구니 페이지 컨테이너 */
+.cart-page-container {
+    padding: 20px;
+    max-width: 900px;
+    margin: 150px auto 20px auto;
+    background-color: #f8f9fa; /* 연한 배경 */
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    font-family: 'Montserrat', sans-serif;
+}
+
+.cart-page-container h2 {
+    font-size: 2.4em;
+    font-weight: bold;
+    color: #343a40;
+    margin-bottom: 25px;
+    border-bottom: 3px solid grey; /* 제목 아래 구분선 */
+    padding-bottom: 10px;
+}
+
+/* 개별 장바구니 항목 스타일 */
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px dashed #ced4da; /* 항목 간 점선 구분 */
+}
+
+/* 항목 정보 텍스트 (제목, 가격) */
+.cart-item-info {
+    flex-grow: 1;
+    padding-right: 20px;
+    font-size: 1.5em;
+    font-weight: 500;
+}
+
+.cart-item-info h3 {
+    font-size: 1.3em;
+    font-weight: 400;
+    color: #333;
+    margin: 0 0 5px 0;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.cart-item-img {
+    width: 120px;    
+    height: 120px; 
+    object-fit: cover;
+    border-radius: 6px;
+    margin-right: 20px; 
+    border: 1px solid #eee;
+}
+
+/* 수량 조절 컨테이너 */
+.cart-quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* 버튼과 숫자 사이 간격 */
+}
+
+.cart-quantity-controls button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.cart-quantity-controls button:hover {
+    background-color: #0056b3;
+}
+
+.quantity-display {
+    min-width: 20px;
+    text-align: center;
+    font-size: 1.1em;
+
+    display: inline-block; 
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+/* 총합 정보 컨테이너 */
+.cart-summary {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #e9ecef; /* 총합 영역 배경색 */
+    border-radius: 8px;
+    border-top: 2px solid #adb5bd;
+}
+
+.cart-summary .total-price {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.8em;
+    font-weight: 600;
+    color: #28a745; /* 총 금액 강조색 */
+    margin-bottom: 20px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* 결제하기 및 홈 버튼 컨테이너 */
+.cart-actions {
+    display: flex;
+    justify-content: space-between; /* 양 끝 정렬 */
+    margin-top: 20px;
+}
+
+.cart-actions button {
+    padding: 12px 25px;
+    font-size: 1.25em;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+/* 결제하기 버튼 */
+.checkout-button {
+    background-color: #28a745; /* 녹색 */
+    color: white;
+    border: none;
+}
+.checkout-button:hover {
+    opacity: 0.9;
+}
+
+/* 홈으로 가기 버튼 */
+.go-home-button {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+}
+.go-home-button:hover {
+    opacity: 0.9;
+}
+
+.empty-cart {
+    font-size: 1.3em;
+    color: #6c757d;
+    margin-bottom: 20px;
 }

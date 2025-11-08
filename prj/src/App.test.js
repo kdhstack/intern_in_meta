@@ -3,7 +3,7 @@ import {RecoilRoot} from 'recoil';
 import App from './App';
 
 
-test('이미지 요소 확인', async () => {
+test('서버 구동 확인', async () => {
   // 1. App 컴포넌트 렌더링
   render(
     <RecoilRoot>

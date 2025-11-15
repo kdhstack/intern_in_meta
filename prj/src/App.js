@@ -3,6 +3,7 @@ import './App.css';
 import React, {useState, Suspense} from 'react';
 import {useRecoilState, useRecoilValue, useRecoilValueLoadable} from 'recoil';
 import { cartState, cartCountSelector, viewState, cartTotalSelector, productsSelector } from './state/atoms';
+import {BroswerRouter as Router, Route, Routes} from 'react-router-dom';
 
 function Header({onCartClick}) {
   const totalCount = useRecoilValue(cartCountSelector);

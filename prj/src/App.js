@@ -2,7 +2,7 @@ import './App.css';
 
 import React, {useState, Suspense} from 'react';
 import {useRecoilState, useRecoilValue, useRecoilValueLoadable} from 'recoil';
-import { cartState, cartCountSelector, viewState, cartTotalSelector, productsSelector } from './state/atoms';
+import { cartState, cartCountSelector, cartTotalSelector, productsSelector } from './state/atoms';
 import {BrowserRouter as Router, Route, Routes, useNavigate} from 'react-router-dom';
 
 function Header({onCartClick}) {
@@ -286,6 +286,13 @@ function CheckoutPage({onGoBack, onRegister, onPaymentComplete, registeredCards}
           <button className='back-button' onClick={onGoBack}>← 장바구니로 돌아가기</button>
         </div>
         
+        <div className = 'cart-summary checkout-summary'>
+          <div className='total-price final-total'>
+            <span>총 결제금액:</span>
+            <span>{cartTotal.finalTotal.toLocaleString()}원</span>
+          </div>
+        </div>
+        
         <div className='card-list-container'>
           {!hasCards && ( 
             <div className='card-selection-text'>
@@ -317,13 +324,6 @@ function CheckoutPage({onGoBack, onRegister, onPaymentComplete, registeredCards}
       >
         {hasCards && selectedCardId ? `${cartTotal.finalTotal.toLocaleString()}원 결제하기` : '카드 선택 후 결제 가능'}
       </button>
-
-              <div className = 'cart-summary checkout-summary'>
-          <div className='total-price final-total'>
-            <span>총 결제금액:</span>
-            <span>{cartTotal.finalTotal.toLocaleString()}원</span>
-          </div>
-        </div>
       </div>
       );
     }

@@ -488,6 +488,8 @@
     background-color: #6c757d;
     color: white;
     border: none;
+    height: 30px;
+    font-size: 15px;;
 }
 .go-home-button:hover {
   opacity: 0.9;
@@ -504,5 +506,9 @@
 }
 
 .checkout-page-container {
+  margin-top: 110px;
+}
+
+.payment-complete-page-container {
   margin-top: 110px;
 }

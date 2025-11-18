@@ -513,6 +513,20 @@ function ProductsView({onBuyClick}) {
   )
 }
 
+function PaymentCompletePage({onGoHome}) {
+  return (
+    <div className='payment-complete-page-container'>
+      <div className='success-message'>
+        <h2> 결제가 완료되었습니다!🥳</h2>
+        <p>구매해주셔서 감사합니다. 곧 상품이 배송될 예정입니다.</p>
+      </div>
+      <button className='go-home-button' onClick={onGoHome}>
+        ← 홈으로 돌아가기
+      </button>
+    </div>
+  );
+}
+
 function MainApp() {
   const navigate = useNavigate();
 
@@ -523,6 +537,7 @@ function MainApp() {
   const handleGoToCart = () => navigate('/cart');
   const handleGoToHome = () => navigate('/intern_in_meta');
   const handleGoToCheckout = () => navigate('/checkout');
+  const handleGoToComplete = () => navigate('/complete');
 
   const allCartActions = useCartActions();
 
@@ -539,8 +554,7 @@ function MainApp() {
 
   const handlePaymentComplete = () => {
     setCart([]); // 장바구니 비우기
-    alert('결제가 완료되었습니다! 장바구니를 비웁니다.');
-    handleGoToHome();
+    handleGoToComplete();
   }
 
   return (
@@ -567,6 +581,11 @@ function MainApp() {
             onRegister={handleRegisterCard}
             onPaymentComplete={handlePaymentComplete}
             registeredCards={registeredCards}
+          />
+        } />
+        <Route path = '/complete' element = {
+          <PaymentCompletePage
+            onGoHome={handleGoToHome}
           />
         } />
       </Routes>

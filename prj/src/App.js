@@ -3,7 +3,7 @@ import './App.css';
 import React, {useState, Suspense} from 'react';
 import {useRecoilState, useRecoilValue, useRecoilValueLoadable} from 'recoil';
 import { cartState, cartCountSelector, viewState, cartTotalSelector, productsSelector } from './state/atoms';
-import {BroswerRouter as Router, Route, Routes} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Routes, useNavigate} from 'react-router-dom';
 
 function Header({onCartClick}) {
   const totalCount = useRecoilValue(cartCountSelector);
@@ -53,6 +53,9 @@ function ItemBox({item, onBuyClick}) {
   const cartButtonText = isClicked ? '담음!' : '담기';
 
   const handleBuyClick = () => {
+    if (!isClicked) {
+      handleCartClick();
+    }
     if (onBuyClick) {
       onBuyClick();
     }
@@ -216,10 +219,10 @@ function Card({cardData, isInput, isSelected}) {
 )
 }
 
-function CardModal({onClose, cards, onRegister}) {
+function CheckoutPage({onGoBack, onRegister, onPaymentComplete, registeredCards}) {
   const [stage, setStage] = useState('selection');
-  
   const [selectedCardId, setSelectedCardId] = useState(null);
+  const cartTotal = useRecoilValue(cartTotalSelector);
 
   const [newCard, setNewCard] = useState( {
     number: '',
@@ -265,55 +268,72 @@ function CardModal({onClose, cards, onRegister}) {
     setStage('selection');
   }
 
+  const handlePaymentClick = () => {
+    if (selectedCardId) {
+      onPaymentComplete();
+    }
+    else {
+      alert('결제할 카드를 선택해주세요.');
+    }
+  }
+
   if (stage === 'selection') {
-    const hasCards = cards.length > 0;
+    const hasCards = registeredCards.length > 0;
     return (
-      <div className='modal-backdrop'>
-        <div className='card-modal'>
-          <button className='close-button' onClick={onClose}>X</button>
-          <h2>결제 수단 선택</h2>
-          
+      <div className='checkout-page-container'>
+        <h2>결제 수단 선택</h2>
+        <div className='page-actions'>
+          <button className='back-button' onClick={onGoBack}>← 장바구니로 돌아가기</button>
+        </div>
+        
+        <div className='card-list-container'>
           {!hasCards && ( 
-          <div className='card-selection-text'>
-           새로운 카드를 등록해주세요.
-           </div>
+            <div className='card-selection-text'>
+            새로운 카드를 등록해주세요.
+            </div>
           )}
 
-   <div className='card-list-container'>
- {cards.map((card, index) => (
-  <div 
-  key={card.id} 
-  className='existing-card'
-  onClick={() => handleCardSelect(card.id)}
-  >
-  <Card 
-   cardData={card} 
-   isSelected={card.id === selectedCardId}
-   /> 
-  </div>
-  ))}
+          {registeredCards.map((card) => (
+            <div
+              key = {card.id}
+              className='existing-card'
+              onClick={() => handleCardSelect(card.id)}
+            >
+             <Card
+              cardData = {card}
+              isSelected={card.id === selectedCardId}
+              />
+            </div>
+          ))}
+        <div className='add-new-card-button' onClick={handleAddCardClick}>
+          + 새 카드 추가
+        </div>
+      </div>
 
-  <div className='add-new-card-button' onClick={handleAddCardClick}>
-  +
-  </div>
-  </div>
+      <button
+        className='pay-button'
+        disabled={!hasCards || !selectedCardId}
+        onClick={handlePaymentClick}
+      >
+        {hasCards && selectedCardId ? `${cartTotal.finalTotal.toLocaleString()}원 결제하기` : '카드 선택 후 결제 가능'}
+      </button>
 
- <button className='pay-button' disabled={!hasCards || !selectedCardId}> 
-  {hasCards && selectedCardId ? '선택된 카드로 결제하기' : '카드 선택 후 결제 가능'}
-  </button>
-  </div>
-  </div>
-    );
-  }
+              <div className = 'cart-summary checkout-summary'>
+          <div className='total-price final-total'>
+            <span>총 결제금액:</span>
+            <span>{cartTotal.finalTotal.toLocaleString()}원</span>
+          </div>
+        </div>
+      </div>
+      );
+    }
 
   if (stage === 'add') {
     return (
-      <div className='modal-backdrop'>
-        <div className='card-modal'>
-          <button className='back-button' onClick={handleGoBack}>← 뒤로</button>
-          <button className='close-button' onClick={onClose}>X</button> 
+      <div className='checkout-page-container'>
+        <button className='back-button' onClick={handleGoBack}>← 카드 선택으로</button>
           
-          <h2>새 카드 추가</h2>
+          <h2>새 카드 등록</h2>
 
           <div className='card-info-input'>
             <CardNumber 
@@ -345,7 +365,6 @@ function CardModal({onClose, cards, onRegister}) {
 
           <button className='pay-button' onClick={handleCardRegistration}>카드 등록하기</button>
         </div>
-      </div>
     );
   }
 }
@@ -494,25 +513,21 @@ function ProductsView({onBuyClick}) {
   )
 }
 
-function App() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [registeredCards, setRegisteredCards] = useState([])
+function MainApp() {
+  const navigate = useNavigate();
 
-  const [currentView, setCurrentView] = useRecoilState(viewState);
   // eslint-disable-next-line no-unused-vars
   const [cart, setCart] = useRecoilState(cartState); // 장바구니 비우기 위해
+  const [registeredCards, setRegisteredCards] = useState([]); // 카드 목록은 App에서 관리
+  
+  const handleGoToCart = () => navigate('/cart');
+  const handleGoToHome = () => navigate('/intern_in_meta');
+  const handleGoToCheckout = () => navigate('/checkout');
 
-  const cartActions = useCartActions();
-
-  const handleGoToCart = () => setCurrentView('cart');
-  const handleGoToHome = () => setCurrentView('home');
+  const allCartActions = useCartActions();
 
   const handleBuyButtonClick = () => {
-    setIsModalOpen(true);
-  }
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
+    handleGoToCheckout();
   }
 
   const handleRegisterCard = (newCardInfo) => {
@@ -522,46 +537,49 @@ function App() {
     }]);
   }
 
-  const handleCheckout = () => {
+  const handlePaymentComplete = () => {
     setCart([]); // 장바구니 비우기
     alert('결제가 완료되었습니다! 장바구니를 비웁니다.');
     handleGoToHome();
   }
 
-  const renderContent = () => {
-    if (currentView === 'cart') {
-      return (
-        <CartPage
-          onGoHome = {handleGoToHome}
-          cartActions={cartActions}
-          onCheckout={handleCheckout}
-        />
-      );
-    }
-
-    // 기본 뷰: home
-    return (
-      <Suspense fallback = {<div>상품 목록을 불러오는 중...</div>}>
-        <ProductsView onBuyClick={handleBuyButtonClick} />
-      </Suspense>
-    );
-  };
-
   return (
     <div className="App">
       <Header onCartClick = {handleGoToCart}/>
 
-      {renderContent()}
-
-      {isModalOpen && (
-        <CardModal 
-        onClose={handleCloseModal}
-        cards = {registeredCards} 
-        onRegister={handleRegisterCard}
-        />
-      )}
+      <Routes>
+        <Route path = '/intern_in_meta' element = {
+          <Suspense fallback = {<div>상품 목록을 불러오는 중...</div>}>
+            <ProductsView onBuyClick={handleBuyButtonClick} />
+          </Suspense>
+        } />
+        <Route path = '/cart' element = {
+          <CartPage
+            cart = {cart}
+            onGoHome={handleGoToHome}
+            cartActions={allCartActions}
+            onCheckout={handleGoToCheckout}
+          />
+        } />
+        <Route path = '/checkout' element = {
+          <CheckoutPage
+            onGoBack = {handleGoToCart}
+            onRegister={handleRegisterCard}
+            onPaymentComplete={handlePaymentComplete}
+            registeredCards={registeredCards}
+          />
+        } />
+      </Routes>
     </div>
   );
+}
+
+function App () {
+  return (
+    <Router>
+      <MainApp />
+    </Router>
+  )
 }
 
 export default App;

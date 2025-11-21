@@ -3,7 +3,7 @@ import './App.css';
 import React, {useState, Suspense} from 'react';
 import {useRecoilState, useRecoilValue, useRecoilValueLoadable} from 'recoil';
 import { cartState, cartCountSelector, cartTotalSelector, productsSelector } from './state/atoms';
-import {BrowserRouter as Router, Route, Routes, useNavigate} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Routes, useNavigate, useParams} from 'react-router-dom';
 
 function Header({onCartClick}) {
   const totalCount = useRecoilValue(cartCountSelector);
@@ -34,6 +34,7 @@ function ItemStatus({totalItems}) {
 
 function ItemBox({item, onBuyClick}) {
   const [cart, setCart] = useRecoilState(cartState)
+  const navigate = useNavigate();
 
   const itemInCart = cart.find(cartItem => cartItem.id === item.id)
   const isClicked = !!itemInCart; // 담겨 있으면 True
@@ -61,12 +62,17 @@ function ItemBox({item, onBuyClick}) {
     }
   };
 ;
+
+  const handleImageClick = () => {
+    navigate(`/detail/${item.id}`);
+  }
+
   const buyButtonClasses = 'buybutton';
   const buyButtonText = '구매';
 
   return (
     <div className="item">
-      <img src={imageSrc} alt={item.title} className="itemimg"></img>
+      <img src={imageSrc} alt={item.title} className="itemimg clickable" onClick={handleImageClick}></img>
       <div className='item-info'></div>
       <div className='itemtitle'>{item.title}</div>
       <div className='itemdesc'>{item.desc}</div>
@@ -513,6 +519,105 @@ function ProductsView({onBuyClick}) {
   )
 }
 
+function ItemDetailView({cartActions, onGoHome}) {
+  const {id} = useParams();
+  const productsLoadable = useRecoilValueLoadable(productsSelector);
+  const navigate = useNavigate();
+  const [quantity, setQuantity] = useState(1);
+  const [cart, setCart] = useRecoilState(cartState);
+
+  if (productsLoadable.state === 'loading') {
+    return <div className='loading-state'>상품 정보를 불러오는 중입니다...</div>;
+  }
+
+  if (productsLoadable.state === 'hasError') {
+    return <div className='error-state'>🚨 상품 데이터를 불러오는 데 실패했습니다.</div>;
+  }
+
+  const products = productsLoadable.contents;
+  const item = products.find(p => p.id === id);
+
+  if (!item) {
+    return <div className='error-state'>존재하지 않는 상품입니다.</div>;
+  }
+
+  const relatedProducts = products.filter(
+    p =>item.brand && p.brand === item.brand && p.id !== item.id
+  );
+
+  const imageSrc = process.env.PUBLIC_URL + item.img;
+  const numericPrice = parseInt(item.price.replace(/[^0-9]/g, ''));
+  const currentCartItem = cart.find(cartItem => cartItem.id === item.id);
+
+  const handleQuantityChange = (change) => {
+    setQuantity(prev => Math.max(1, prev + change));
+  };
+
+  const handleAddToCart = () => {
+    if (currentCartItem) {
+        cartActions.updateQuantity(item.id, quantity);
+    } 
+    else {
+        setCart(prevCart => [...prevCart, { id: item.id, quantity: quantity, ...item }]);
+    }
+    alert(`${item.title} ${quantity}개를 장바구니에 담았습니다.`);
+    setQuantity(1);
+  };
+
+  const handleRelatedItemClick = (relatedId) => {
+      navigate(`/detail/${relatedId}`);
+  };
+
+  return (
+    <div className='detail-page-container'>
+      <button className='back-button' onClick={onGoHome}>← 상품 목록으로</button>
+
+      <div className='detail-main-content'>
+        <img src={imageSrc} alt = {item.title} className='detail-img' />
+
+        <div className='detail-info-box'>
+          <h2 className='detail-title'>{item.title}</h2>
+          <p className='detail-desc'>{item.desc}</p>
+          <p className='detail-price'>{item.price}</p>
+          <p className='detail-subtext'>총 상품 금액: {(numericPrice * quantity).toLocaleString()}원</p>
+
+          <div className='detail-quantity-control'>
+            <label>구매 수량:</label>
+            <button className='quantity-button' onClick={() => handleQuantityChange(-1)} disabled= {quantity <= 1}>-</button>
+            <span className='quantity-display'>{quantity}</span>
+            <button className='quantity-button' onClick={() => handleQuantityChange(1)}>+</button>
+          </div>
+
+          <button className='add-to-cart-button' onClick={handleAddToCart}>
+            🛒 장바구니에 담기
+          </button>
+        </div>
+      </div>
+
+      <div className='related-products-section'>
+        <h3 className='related-title'>관련 상품({item.brand})</h3>
+        <div className='related-list'>
+          {relatedProducts.length > 0 ? (
+            relatedProducts.map(relatedItem => (
+              <div
+                key = {relatedItem.id}
+                className = 'related-item'
+                onClick={() => handleRelatedItemClick(relatedItem.id)}
+              >
+                <img src={process.env.PUBLIC_URL + relatedItem.img} alt={relatedItem.title} className='related-item-img' />
+                <div className='related-item-title'>{relatedItem.title}</div>
+              </div>
+              ))
+            ) : (
+              <p>같은 브랜드의 다른 상품이 없습니다.</p>
+            )}
+        </div>
+      </div>
+
+    </div>
+  );
+}
+
 function PaymentCompletePage({onGoHome}) {
   return (
     <div className='payment-complete-page-container'>
@@ -565,6 +670,14 @@ function MainApp() {
         <Route path = '/intern_in_meta' element = {
           <Suspense fallback = {<div>상품 목록을 불러오는 중...</div>}>
             <ProductsView onBuyClick={handleBuyButtonClick} />
+          </Suspense>
+        } />
+        <Route path = '/detail/:id' element = {
+          <Suspense fallback = {<div>상품 상세 정보를 불러오는 중...</div>}>
+            <ItemDetailView
+             cartActions={allCartActions}
+             onGoHome={handleGoToHome}
+             />
           </Suspense>
         } />
         <Route path = '/cart' element = {

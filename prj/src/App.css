@@ -490,7 +490,7 @@
     border: none;
     height: 30px;
     font-size: 15px;;
-}
+}npx
 .go-home-button:hover {
   opacity: 0.9;
 }
@@ -511,4 +511,157 @@
 
 .payment-complete-page-container {
   margin-top: 110px;
+}
+
+/* 상품 상세 페이지 컨테이너 */
+.detail-page-container {
+    padding: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* 메인 콘텐츠 레이아웃 (사진 + 정보) */
+.detail-main-content {
+    display: flex;
+    gap: 40px;
+    margin-top: 100px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid #eee;
+}
+
+.detail-img {
+    width: 40%;
+    max-width: 400px;
+    height: auto;
+    border-radius: 8px;
+    object-fit: contain;
+}
+
+.detail-info-box {
+    width: 60%;
+}
+
+.detail-title {
+    font-size: 2em;
+    margin-top: 0;
+    color: #333;
+}
+
+.detail-desc {
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    font-size: 1.2em !important;
+}
+
+.detail-price {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #d9534f;
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+}
+
+.detail-subtext {
+    font-size: 1.1em;
+    font-weight: bold;
+    margin: 15px 0;
+    color: #000;
+}
+
+.detail-quantity-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    font-size: 1.1em;
+}
+
+.detail-quantity-control label {
+    font-weight: 500;
+}
+
+.detail-quantity-control .quantity-button {
+    width: 30px;
+    height: 30px;
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.add-to-cart-button {
+    width: 100%;
+    padding: 15px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.add-to-cart-button:hover {
+    background-color: black;
+}
+
+.related-products-section {
+    margin-top: 30px;
+}
+
+.related-title {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    border-left: 5px solid black;
+    padding-left: 10px;
+}
+
+.related-list {
+    display: flex;
+    overflow-x: auto; 
+    gap: 15px;
+    padding-bottom: 15px;
+}
+
+.related-item {
+    flex-shrink: 0;
+    width: 120px;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid #eee;
+    padding: 10px;
+    border-radius: 5px;
+    transition: box-shadow 0.2s;
+}
+
+.related-item:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.related-item-img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    margin-bottom: 5px;
+}
+
+.related-item-title {
+    font-size: 0.9em;
+    color: #333;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media (max-width: 768px) {
+    .detail-main-content {
+        flex-direction: column;
+    }
+
+    .detail-img, .detail-info-box {
+        width: 100%;
+        max-width: none;
+    }
 }

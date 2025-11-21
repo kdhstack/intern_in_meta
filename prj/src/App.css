@@ -267,7 +267,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 40px;
+    font-size: 1.2em;
     color: #888;
     transition: background-color 0.2s;
 }
@@ -435,11 +435,6 @@
     font-weight: 500;
 }
 
-.cart-summary .total-price:not(.final-total),
-.checkout-summary .total-price:not(.final-total) {
-    border-bottom: 1px dashed #555;
-}
-
 .total-items-count span {
     color: #555;
 }
@@ -480,6 +475,7 @@
 .checkout-button {
     background-color: #28a745;
     color: white;
+    height: 60px;
 }
 
 .checkout-button:hover {
@@ -489,7 +485,7 @@
 .go-home-button {
     background-color: #6c757d;
     color: white;
-    height: 30px;
+    height: 60px;
     font-size: 15px;
     padding: 5px 15px;
 }

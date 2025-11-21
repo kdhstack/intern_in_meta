@@ -429,38 +429,44 @@
     margin-right: 15px;
 }
 
-/* 총합 정보 컨테이너 */
-.cart-summary {
-    margin-top: 30px;
-    padding: 20px;
-    background-color: #e9ecef; /* 총합 영역 배경색 */
-    border-radius: 8px;
-    border-top: 2px solid #adb5bd;
-}
-
-.cart-summary .total-price {
+.cart-summary .total-price,
+.checkout-summary .total-price {
     display: flex;
     justify-content: space-between;
-    font-size: 1.8em;
-    font-weight: 600;
-    color: #28a745; /* 총 금액 강조색 */
+    padding: 8px 0;
+    font-size: 1.1em; 
+    color: #333;
+    font-weight: 500;
+}
+
+.cart-summary .total-price:not(.final-total),
+.checkout-summary .total-price:not(.final-total) {
+    border-bottom: 1px dashed #555;
+}
+
+.total-items-count span {
+    color: #555;
+}
+
+.checkout-summary {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.cart-summary:not(.checkout-summary) .final-total {
+    font-size: 1.8em; 
+    font-weight: 600; 
+    color: black; 
     margin-bottom: 20px;
     font-family: 'Montserrat', sans-serif;
 }
 
-.checkout-summary {
-    background-color: #f7f7f7; /* 배경색을 밝은 회색으로 */
-    border: 1px solid #ddd;   /* 얇은 테두리 추가 */
-    border-radius: 8px;       /* 모서리를 둥글게 */
-    padding: 15px 20px;       /* 내부 여백 추가 */
-    height: 50px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* 은은한 그림자 추가 */
-}
-
-/* 결제하기 및 홈 버튼 컨테이너 */
 .cart-actions {
     display: flex;
-    justify-content: space-between; /* 양 끝 정렬 */
+    justify-content: space-between; 
     margin-top: 20px;
 }
 
@@ -475,7 +481,7 @@
 
 /* 결제하기 버튼 */
 .checkout-button {
-    background-color: #28a745; /* 녹색 */
+    background-color: #28a745; 
     color: white;
     border: none;
 }

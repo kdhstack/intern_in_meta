@@ -230,6 +230,9 @@ function CheckoutPage({onGoBack, onRegister, onPaymentComplete, registeredCards}
   const [selectedCardId, setSelectedCardId] = useState(null);
   const cartTotal = useRecoilValue(cartTotalSelector);
 
+  const cartItems = useRecoilValue(cartState);
+  const totalItemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+
   const [newCard, setNewCard] = useState( {
     number: '',
     date: '',
@@ -293,6 +296,10 @@ function CheckoutPage({onGoBack, onRegister, onPaymentComplete, registeredCards}
         </div>
         
         <div className = 'cart-summary checkout-summary'>
+          <div className='total-price total-items-count'> 
+            <span>총 상품 개수:</span>
+            <span>{totalItemCount}개</span>
+          </div>
           <div className='total-price final-total'>
             <span>총 결제금액:</span>
             <span>{cartTotal.finalTotal.toLocaleString()}원</span>

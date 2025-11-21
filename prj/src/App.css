@@ -1,213 +1,213 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
+/* 전역 및 레이아웃 */
+
 .App {
-  text-align: center;
+    text-align: center;
 }
 
+/* Header & Navigation */
 .header {
-  position: fixed;
-  top: 0;
-  height: 100px;
-  width: 100%;
-  
-  background-color:black;
-  color: white;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100px;
+    background-color: black;
+    color: white;
+    z-index: 1000;
 }
 
 .header h1 {
-  margin-top: 0;
-  padding-top: 15px;
-  font-size: 50px;
-  font-family: 'Montserrat', sans-serif;
+    margin-top: 0;
+    padding-top: 15px;
+    font-size: 50px;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .cart {
-  width: 50px;
-  height: 50px;
-  display: block;
-  position: absolute;
-
-  top: 25px;
-  right: 30px;
+    width: 50px;
+    height: 50px;
+    display: block;
+    position: absolute;
+    top: 25px;
+    right: 30px;
 }
 
 .cart-count {
-  position: absolute;
-  top: 20px;
-  right: 25px;
-
-  background-color: white;
-  color: black;
-  font-size: 14px;
-  font-weight: bold;
-
-  width: 25px;
-  height: 25px;
-  line-height: 25px;
-  border-radius: 50%;
-
-  text-align: center;
-  z-index: 1001;
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    background-color: white;
+    color: black;
+    font-size: 14px;
+    font-weight: bold;
+    width: 25px;
+    height: 25px;
+    line-height: 25px;
+    border-radius: 50%;
+    text-align: center;
+    z-index: 1001;
 }
 
+/* Common Layouts */
 .page {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .itemstatus {
-  width: 100%;
-  flex-shrink: 0;
-  text-align: left;
-  margin-bottom: 15px;
-  padding-left: 20px;
+    width: 100%;
+    flex-shrink: 0;
+    text-align: left;
+    margin-bottom: 15px;
+    padding-left: 20px;
 }
 
 .itemstatustitle {
-  font-size: 40px;
-  padding-left: 20px;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
+    font-size: 40px;
+    padding-left: 20px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
 }
 
 .itemlist {
-  font-size: 20px;
-  padding-left: 20px;
-  font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    padding-left: 20px;
+    font-family: 'Montserrat', sans-serif;
 }
 
+/* 상품 카드 스타일 */
+/* Product Cards (.item) */
 .item {
-  display:block;
-  width: 40%;
-  height: 480px;
-  margin: 20px 2.5%;
-  border: 1px solid black;
-  border-radius: 50px;
-  align-items: center;
-
-  font-family: 'Montserrat', sans-serif;
-  text-align: left;
+    display: block;
+    width: 40%;
+    height: 480px;
+    margin: 20px 2.5%;
+    border: 1px solid black;
+    border-radius: 50px;
+    text-align: left;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .itemimg {
-  width: 100%;
-  height: 50%;
-  border-top-left-radius: 50px;
-  border-top-right-radius: 50px;
-  border-bottom: 1px solid black;
-  margin-bottom: 20px;
+    width: 100%;
+    height: 50%;
+    border-top-left-radius: 50px;
+    border-top-right-radius: 50px;
+    border-bottom: 1px solid black;
+    margin-bottom: 20px;
 }
 
 .itemtitle {
-  font-size: 30px;
-  padding-left: 20px;
+    font-size: 30px;
+    padding-left: 20px;
 }
 
 .itemdesc {
-  font-size: 20px;
-  color: gray;
-  padding-left: 20px;
+    font-size: 20px;
+    color: gray;
+    padding-left: 20px;
 }
 
 .itemprice {
-  font-size: 25px;
-  font-weight: 500;
-  padding-left: 20px;
+    font-size: 25px;
+    font-weight: 500;
+    padding-left: 20px;
 }
 
 .item-actions {
-  display: flex;
-  margin-top: 15px;
-  padding-left: 10px;
+    display: flex;
+    margin-top: 15px;
+    padding-left: 10px;
+}
+
+/* Action Buttons */
+.cartbutton, .buybutton {
+    height: 40px;
+    width: 90px;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 25px;
+    font-weight: 700;
+    margin-left: 10px;
+    padding: 5px;
+    border-radius: 50px;
 }
 
 .cartbutton {
-  height: 40px;
-  width: 90px;
-  text-align: center;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 25px;
-  font-weight: 700;
-  margin-left: 10px;
-  padding: 5px;
-  border-radius: 50px;
-  background-color: black;
-  color: white;
+    background-color: black;
+    color: white;
 }
 
 .cartbutton.clicked {
-  background-color: lightgray;
-  color: black;
+    background-color: lightgray;
+    color: black;
 }
 
 .buybutton {
-  height: 40px;
-  width: 90px;
-  text-align: center;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 25px;
-  font-weight: 700;
-  margin-left: 10px;
-  padding: 5px;
-  border-radius: 50px;
-  background-color: #ffef64;
-  color: black;
+    background-color: #ffef64;
+    color: black;
 }
 
+/*카드 등록, 선택*/
 .modal-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display:flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 10000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
 }
 
 .card-modal {
-  background-color: white;
-  padding: 30px;
-  border-radius: 10px;
-  width: 90%;
-  max-width: 400px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  position: relative;
-  text-align: center;
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+    text-align: center;
+}
+
+.close-button, .back-button {
+    position: absolute;
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 5px;
 }
 
 .close-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  border: none;
-  background: none;
-  font-size: 20px;
-  cursor: pointer;
-  padding: 5px;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
 }
 
-.card-info {
-  border: 1px solid #ccc;
-  padding: 15px;
-  margin: 15px 0;
-  border-radius: 5px;
-  text-align: left;
+.back-button {
+    top: 10px;
+    left: 10px;
+    font-size: 16px;
+    color: #555;
 }
 
 .pay-button {
-  background-color: black;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  margin-top: 10px;
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
 }
 
+/* Card Selection */
 .card-selection-text {
     text-align: center;
     margin-bottom: 20px;
@@ -222,30 +222,28 @@
     margin-bottom: 30px;
 }
 
-.existing-card,
-.add-new-card-button {
-    width: 90%; 
-    max-width: 300px; 
-    height: 120px;
-    font-size: 20px !important;
+.existing-card, .add-new-card-button {
+    width: 90%;
+    max-width: 300px;
+    border-radius: 10px;
+    margin: 10px;
+    cursor: pointer;
 }
 
 .existing-card {
+    height: 120px;
     border: 1px solid #000;
     padding: 15px;
-    border-radius: 10px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    margin: 10px;
 }
 
 .cardinfo {
-  width: 100%;
-  text-align: left;
+    width: 100%;
+    text-align: left;
 }
 
 .existing-card .cardinfo p {
@@ -253,18 +251,24 @@
     margin: 3px 0;
 }
 
+.cardinfo.selected-card {
+    border: 2px solid #333;
+    background-color: #f0f8ff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: scale(1.02);
+    transition: all 0.2s ease-in-out;
+}
+
 .add-new-card-button {
     width: 150px;
     height: 100px;
     background-color: #eee;
     border: 1px dashed #ccc;
-    border-radius: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 40px;
     color: #888;
-    cursor: pointer;
     transition: background-color 0.2s;
 }
 
@@ -272,6 +276,7 @@
     background-color: #ddd;
 }
 
+/* Card Info Inputs */
 .card-info-input p {
     display: flex;
     justify-content: space-between;
@@ -293,31 +298,8 @@
     font-size: 16px;
 }
 
-.back-button {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    border: none;
-    background: none;
-    font-size: 16px;
-    cursor: pointer;
-    padding: 5px;
-    color: #555;
-}
-
-.cardinfo.selected-card {
-  border: 2px solid #333;
-  background-color: #f0f8ff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transform: scale(1.02);
-  transition: all 0.2s ease-in-out;
-}
-
-.card-list-container > .existing-card {
-    cursor: pointer;
-}
-
-/* 로딩 및 에러 메시지 컨테이너 */
+/* 상태 메시지 및 페이지 컨테이너*/
+/* State Messages */
 .loading-state, .error-state {
     padding: 40px 20px;
     text-align: center;
@@ -328,29 +310,30 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
-/* 로딩 중 메시지 */
 .loading-state {
     background-color: #f0f8ff;
     color: #007bff;
     border: 2px solid #b3d7ff;
 }
 
-/* 에러 메시지 */
 .error-state {
     background-color: #fff0f0;
     color: #dc3545;
     border: 2px solid #f5c6cb;
 }
 
-/* 장바구니 페이지 컨테이너 */
-.cart-page-container {
+/* Page Containers */
+.cart-page-container, .checkout-page-container, .payment-complete-page-container {
     padding: 20px;
     max-width: 900px;
     margin: 150px auto 20px auto;
-    background-color: #f8f9fa; /* 연한 배경 */
+    font-family: 'Montserrat', sans-serif;
+}
+
+.cart-page-container {
+    background-color: #f8f9fa;
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    font-family: 'Montserrat', sans-serif;
 }
 
 .cart-page-container h2 {
@@ -358,20 +341,39 @@
     font-weight: bold;
     color: #343a40;
     margin-bottom: 25px;
-    border-bottom: 3px solid grey; /* 제목 아래 구분선 */
+    border-bottom: 3px solid grey;
     padding-bottom: 10px;
 }
 
-/* 개별 장바구니 항목 스타일 */
+.checkout-page-container, .payment-complete-page-container {
+    margin-top: 110px;
+}
+
+.empty-cart {
+    font-size: 1.3em;
+    color: #6c757d;
+    margin-bottom: 20px;
+}
+
+/* 장바구니 항목 및 요약 스타일 */
+/* Cart Item */
 .cart-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 15px 0;
-    border-bottom: 1px dashed #ced4da; /* 항목 간 점선 구분 */
+    border-bottom: 1px dashed #ced4da;
 }
 
-/* 항목 정보 텍스트 (제목, 가격) */
+.cart-item-img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-right: 20px;
+    border: 1px solid #eee;
+}
+
 .cart-item-info {
     flex-grow: 1;
     padding-right: 20px;
@@ -387,20 +389,11 @@
     font-family: 'Montserrat', sans-serif;
 }
 
-.cart-item-img {
-    width: 120px;    
-    height: 120px; 
-    object-fit: cover;
-    border-radius: 6px;
-    margin-right: 20px; 
-    border: 1px solid #eee;
-}
-
-/* 수량 조절 컨테이너 */
+/* Quantity Control */
 .cart-quantity-controls {
     display: flex;
     align-items: center;
-    gap: 10px; /* 버튼과 숫자 사이 간격 */
+    gap: 10px;
 }
 
 .cart-quantity-controls button {
@@ -423,10 +416,13 @@
     min-width: 20px;
     text-align: center;
     font-size: 1.1em;
-
-    display: inline-block; 
+    display: inline-block;
     margin-left: 15px;
     margin-right: 15px;
+}
+
+.remove-button {
+    margin-left: 10px;
 }
 
 .cart-summary .total-price,
@@ -434,7 +430,7 @@
     display: flex;
     justify-content: space-between;
     padding: 8px 0;
-    font-size: 1.1em; 
+    font-size: 1.1em;
     color: #333;
     font-weight: 500;
 }
@@ -457,16 +453,17 @@
 }
 
 .cart-summary:not(.checkout-summary) .final-total {
-    font-size: 1.8em; 
-    font-weight: 600; 
-    color: black; 
+    font-size: 1.8em;
+    font-weight: 600;
+    color: black;
     margin-bottom: 20px;
     font-family: 'Montserrat', sans-serif;
 }
 
+/* Cart Actions */
 .cart-actions {
     display: flex;
-    justify-content: space-between; 
+    justify-content: space-between;
     margin-top: 20px;
 }
 
@@ -477,56 +474,38 @@
     border-radius: 8px;
     cursor: pointer;
     transition: opacity 0.2s;
-}
-
-/* 결제하기 버튼 */
-.checkout-button {
-    background-color: #28a745; 
-    color: white;
     border: none;
 }
+
+.checkout-button {
+    background-color: #28a745;
+    color: white;
+}
+
 .checkout-button:hover {
     opacity: 0.9;
 }
 
-/* 홈으로 가기 버튼 */
 .go-home-button {
     background-color: #6c757d;
     color: white;
-    border: none;
     height: 30px;
-    font-size: 15px;;
-}npx
+    font-size: 15px;
+    padding: 5px 15px;
+}
+
 .go-home-button:hover {
-  opacity: 0.9;
+    opacity: 0.9;
 }
 
-.empty-cart {
-  font-size: 1.3em;
-  color: #6c757d;
-  margin-bottom: 20px;
-}
-
-.remove-button {
-  margin-left: 10px;
-}
-
-.checkout-page-container {
-  margin-top: 110px;
-}
-
-.payment-complete-page-container {
-  margin-top: 110px;
-}
-
-/* 상품 상세 페이지 컨테이너 */
+/* 상품 상세 페이지(detail-page-container)
+/* Product Detail Page */
 .detail-page-container {
     padding: 20px;
     max-width: 1000px;
     margin: 0 auto;
 }
 
-/* 메인 콘텐츠 레이아웃 (사진 + 정보) */
 .detail-main-content {
     display: flex;
     gap: 40px;
@@ -557,7 +536,7 @@
     color: #666;
     line-height: 1.5;
     margin-bottom: 20px;
-    font-size: 1.2em !important;
+    font-size: 1.2em;
 }
 
 .detail-price {
@@ -610,9 +589,10 @@
 }
 
 .add-to-cart-button:hover {
-    background-color: black;
+    background-color: #333;
 }
 
+/* 관련 상품 및 미디어 쿼리 */
 .related-products-section {
     margin-top: 30px;
 }
@@ -626,7 +606,7 @@
 
 .related-list {
     display: flex;
-    overflow-x: auto; 
+    overflow-x: auto;
     gap: 15px;
     padding-bottom: 15px;
 }
@@ -669,5 +649,10 @@
     .detail-img, .detail-info-box {
         width: 100%;
         max-width: none;
+    }
+
+    .item {
+        width: 85%;
+        margin: 15px auto;
     }
 }
